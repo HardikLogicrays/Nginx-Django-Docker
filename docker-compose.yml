@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+
+  gunicorn:
+    volumes:
+      - static:/static
+    env_file:
+      - .env
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static:/static
+    ports:
+      - "90:80"
+
+    depends_on:
+      - gunicorn
+
+volumes:
+  static:
